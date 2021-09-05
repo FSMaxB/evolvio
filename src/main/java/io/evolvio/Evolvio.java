@@ -217,7 +217,7 @@ public class Evolvio extends PApplet {
 				if (x >= 0 && x < BOARD_WIDTH && y >= 0 && y < BOARD_HEIGHT) {
 					for (int i = 0; i < evoBoard.softBodiesInPositions[x][y].size(); i++) {
 						SoftBody body = (SoftBody) evoBoard.softBodiesInPositions[x][y].get(i);
-						if (body.isCreature) {
+						if (body instanceof Creature) {
 							float distance = dist(mX, mY, (float) body.px, (float) body.py);
 							if (distance <= body.getRadius()) {
 								evoBoard.selectedCreature = (Creature) body;

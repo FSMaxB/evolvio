@@ -17,7 +17,6 @@ class SoftBody extends GlobalScope {
 	final double saturation;
 	final double brightness;
 	final double birthTime;
-	boolean isCreature = false;
 	double fightLevel = 0;
 
 	int SBIPMinX;

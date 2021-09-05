@@ -81,7 +81,6 @@ class Creature extends SoftBody {
 		}
 		rotation = rot;
 		vr = tvr;
-		isCreature = true;
 		id = board.creatureIDUpTo + 1;
 		if (tname.length() >= 1) {
 			if (mutateName) {
@@ -337,7 +336,7 @@ class Creature extends SoftBody {
 			loseEnergy(fightLevel * FIGHT_ENERGY * energy * timeStep);
 			for (int i = 0; i < colliders.size(); i++) {
 				SoftBody collider = colliders.get(i);
-				if (collider.isCreature) {
+				if (collider instanceof Creature) {
 					float distance = dist((float) px, (float) py, (float) collider.px, (float) collider.py);
 					double combinedRadius = getRadius() * FIGHT_RANGE + collider.getRadius();
 					if (distance < combinedRadius) {
@@ -475,7 +474,7 @@ class Creature extends SoftBody {
 			double availableEnergy = getBabyEnergy();
 			for (int i = 0; i < colliders.size(); i++) {
 				SoftBody possibleParent = colliders.get(i);
-				if (possibleParent.isCreature && ((Creature) possibleParent).neurons[BRAIN_WIDTH - 1][9] > -1) { // Must be a WILLING creature to also give birth.
+				if ((possibleParent instanceof Creature) && ((Creature) possibleParent).neurons[BRAIN_WIDTH - 1][9] > -1) { // Must be a WILLING creature to also give birth.
 					float distance = dist((float) px, (float) py, (float) possibleParent.px, (float) possibleParent.py);
 					double combinedRadius = getRadius() * FIGHT_RANGE + possibleParent.getRadius();
 					if (distance < combinedRadius) {
