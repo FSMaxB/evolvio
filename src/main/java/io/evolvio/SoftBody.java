@@ -99,7 +99,7 @@ class SoftBody extends GlobalScope {
 		return Math.min(Math.max(y, radius), board.boardHeight - radius);
 	}
 
-	public void collide(double timeStep) {
+	public void collide() {
 		colliders = new ArrayList<SoftBody>(0);
 		for (int x = SBIPMinX; x <= SBIPMaxX; x++) {
 			for (int y = SBIPMinY; y <= SBIPMaxY; y++) {

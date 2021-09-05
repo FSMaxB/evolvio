@@ -22,22 +22,6 @@ class Tile extends GlobalScope {
 		climateType = foodType = type;
 	}
 
-	public float getFertility() {
-		return fertility;
-	}
-
-	public void setFertility(float f) {
-		fertility = f;
-	}
-
-	public float getFoodLevel() {
-		return foodLevel;
-	}
-
-	public void setFoodLevel(float f) {
-		foodLevel = f;
-	}
-
 	public void drawTile(float scaleUp, boolean showEnergy) {
 		stroke(0, 0, 0, 1);
 		strokeWeight(2);

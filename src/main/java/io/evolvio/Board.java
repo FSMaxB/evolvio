@@ -342,12 +342,12 @@ class Board extends GlobalScope {
 			creatures.get(i).setPreviousEnergy();
 		}
 		for (int i = 0; i < rocks.size(); i++) {
-			rocks.get(i).collide(timeStep * OBJECT_TIMESTEPS_PER_YEAR);
+			rocks.get(i).collide();
 		}
 		maintainCreatureMinimum(false);
 		for (int i = 0; i < creatures.size(); i++) {
 			Creature me = creatures.get(i);
-			me.collide(timeStep * OBJECT_TIMESTEPS_PER_YEAR);
+			me.collide();
 			me.metabolize(timeStep * OBJECT_TIMESTEPS_PER_YEAR);
 			if (userControl) {
 				if (me == selectedCreature) {
@@ -366,16 +366,6 @@ class Board extends GlobalScope {
 
 							if (key() == 'i') me.setMouthHue(me.mouthHue + 0.02);
 							if (key() == 'k') me.setMouthHue(me.mouthHue - 0.02);
-              /*if(key == 'i') me.setSaturarion(me.saturation+0.05);
-              if(key == 'k') me.setSaturarion(me.saturation-0.05);
-              if(key == 'o') me.setBrightness(me.brightness+0.05);
-              if(key == 'l') me.setBrightness(me.brightness-0.05);
-
-
-              if(key == 'w') me.setVisionDistance(me.visionDistance+0.05);
-              if(key == 's') me.setVisionDistance(me.visionDistance-0.05);
-              if(key == 'a') me.setVisionAngle(me.visionAngle-0.05);
-              if(key == 'd') me.setVisionAngle(me.visionAngle+0.05);*/
 							if (key() == 'b') {
 								if (!wasPressingB) {
 									me.reproduce(MANUAL_BIRTH_SIZE, timeStep);
@@ -400,7 +390,7 @@ class Board extends GlobalScope {
 		}
 		for (int i = 0; i < creatures.size(); i++) {
 			creatures.get(i).applyMotions(timeStep * OBJECT_TIMESTEPS_PER_YEAR);
-			creatures.get(i).see(timeStep * OBJECT_TIMESTEPS_PER_YEAR);
+			creatures.get(i).see();
 		}
 		if (Math.floor(fileSaveTimes[1] / imageSaveInterval) != Math.floor(year / imageSaveInterval)) {
 			prepareForFileSave(1);

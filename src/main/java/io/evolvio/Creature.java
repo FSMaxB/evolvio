@@ -29,8 +29,6 @@ class Creature extends SoftBody {
 	String parents;
 	int gen;
 	int id;
-	double MAX_VISION_DISTANCE = 10;
-	double currentEnergy;
 	double[] previousEnergy = new double[ENERGY_HISTORY_LENGTH];
 	double vr = 0;
 	double rotation = 0;
@@ -40,8 +38,6 @@ class Creature extends SoftBody {
 	float preferredRank = 8;
 	double[] visionAngles = {0, -0.4, 0.4};
 	double[] visionDistances = {0, 1.42, 1.42};
-	//double visionAngle;
-	//double visionDistance;
 	double[] visionOccludedX = new double[visionAngles.length];
 	double[] visionOccludedY = new double[visionAngles.length];
 	double[] visionResults = new double[9];
@@ -101,10 +97,6 @@ class Creature extends SoftBody {
 		}
 		parents = tparents;
 		board.creatureIDUpTo++;
-		//visionAngle = 0;
-		//visionDistance = 0;
-		//visionEndX = getVisionStartX();
-		//visionEndY = getVisionStartY();
 		for (int i = 0; i < 9; i++) {
 			visionResults[i] = 0;
 		}
@@ -276,12 +268,6 @@ class Creature extends SoftBody {
 		stroke(0, 0, 0);
 		fill((float) mouthHue, 1.0f, 1.0f);
 		ellipse(0.6f * scaleUp, 0, 0.37f * scaleUp, 0.37f * scaleUp);
-    /*rect(-0.7*scaleUp,-0.2*scaleUp,1.1*scaleUp,0.4*scaleUp);
-    beginShape();
-    vertex(0.3*scaleUp,-0.5*scaleUp);
-    vertex(0.3*scaleUp,0.5*scaleUp);
-    vertex(0.8*scaleUp,0.0*scaleUp);
-    endShape(CLOSE);*/
 		popMatrix();
 		if (showVision) {
 			fill(0, 0, 1);
@@ -380,7 +366,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void see(double timeStep) {
+	public void see() {
 		for (int k = 0; k < visionAngles.length; k++) {
 			double visionStartX = px;
 			double visionStartY = py;
@@ -467,7 +453,6 @@ class Creature extends SoftBody {
 
 	public void returnToEarth() {
 		int pieces = 20;
-		double radius = (float) getRadius();
 		for (int i = 0; i < pieces; i++) {
 			getRandomCoveredTile().addFood(energy / pieces, hue);
 		}
@@ -483,7 +468,7 @@ class Creature extends SoftBody {
 
 	public void reproduce(double babySize, double timeStep) {
 		if (colliders == null) {
-			collide(timeStep);
+			collide();
 		}
 		int highestGen = 0;
 		if (babySize >= 0) {
@@ -716,32 +701,6 @@ class Creature extends SoftBody {
 		mouthHue = Math.min(Math.max(set, 0), 1);
 	}
 
-	public void setSaturarion(double set) {
-		saturation = Math.min(Math.max(set, 0), 1);
-	}
-
-	public void setBrightness(double set) {
-		brightness = Math.min(Math.max(set, 0), 1);
-	}
-
-	/*public void setVisionAngle(double set){
-	  visionAngle = set;//Math.min(Math.max(set,-Math.PI/2),Math.PI/2);
-	  while(visionAngle < -Math.PI){
-		visionAngle += Math.PI*2;
-	  }
-	  while(visionAngle > Math.PI){
-		visionAngle -= Math.PI*2;
-	  }
-	}
-	public void setVisionDistance(double set){
-	  visionDistance = Math.min(Math.max(set,0),MAX_VISION_DISTANCE);
-	}*/
-  /*public double getVisionStartX(){
-    return px;//+getRadius()*Math.cos(rotation);
-  }
-  public double getVisionStartY(){
-    return py;//+getRadius()*Math.sin(rotation);
-  }*/
 	public double getVisionEndX(int i) {
 		double visionTotalAngle = rotation + visionAngles[i];
 		return px + visionDistances[i] * Math.cos(visionTotalAngle);
