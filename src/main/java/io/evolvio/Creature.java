@@ -30,8 +30,8 @@ class Creature extends SoftBody {
 	int gen;
 	int id;
 	double[] previousEnergy = new double[ENERGY_HISTORY_LENGTH];
-	double vr = 0;
-	double rotation = 0;
+	double vr;
+	double rotation;
 	Axon[][][] axons;
 	double[][] neurons;
 
@@ -382,8 +382,8 @@ class Creature extends SoftBody {
 			visionResults[k * 3 + 1] = saturation(c);
 			visionResults[k * 3 + 2] = brightness(c);
 
-			int tileX = 0;
-			int tileY = 0;
+			int tileX;
+			int tileY;
 			int prevTileX = -1;
 			int prevTileY = -1;
 			ArrayList<SoftBody> potentialVisionOccluders = new ArrayList<SoftBody>();

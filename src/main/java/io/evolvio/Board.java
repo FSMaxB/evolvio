@@ -37,7 +37,7 @@ class Board extends GlobalScope {
 	int creatureRankMetric = 0;
 	int buttonColor = color(0.82f, 0.8f, 0.7f);
 	Creature[] list = new Creature[LIST_SLOTS];
-	String folder = "TEST";
+	String folder;
 	int[] fileSaveCounts;
 	double[] fileSaveTimes;
 	double imageSaveInterval = 1;
