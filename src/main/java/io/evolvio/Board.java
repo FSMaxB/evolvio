@@ -7,7 +7,6 @@ import java.util.ArrayList;
 class Board extends GlobalScope {
 	private static final float THERMOMETER_MIN = -2;
 	private static final float THERMOMETER_MAX = 2;
-	private final int ROCKS_TO_ADD;
 	private static final float MIN_ROCK_ENERGY_BASE = 0.8f;
 	private static final float MAX_ROCK_ENERGY_BASE = 1.6f;
 	private static final float MIN_CREATURE_ENERGY = 1.2f;
@@ -75,9 +74,8 @@ class Board extends GlobalScope {
 			}
 		}
 
-		ROCKS_TO_ADD = rta;
 		rocks = new ArrayList<SoftBody>(0);
-		for (int i = 0; i < ROCKS_TO_ADD; i++) {
+		for (int i = 0; i < rta; i++) {
 			rocks.add(new SoftBody(random(0, boardWidth), random(0, boardHeight), 0, 0,
 				getRandomSize(), ROCK_DENSITY, hue(ROCK_COLOR), saturation(ROCK_COLOR), brightness(ROCK_COLOR), this, year));
 		}

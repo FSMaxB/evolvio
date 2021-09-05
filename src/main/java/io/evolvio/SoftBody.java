@@ -20,14 +20,11 @@ class SoftBody extends GlobalScope {
 	boolean isCreature = false;
 	double fightLevel = 0;
 
-	private int prevSBIPMinX;
-	private int prevSBIPMinY;
-	private int prevSBIPMaxX;
-	private int prevSBIPMaxY;
 	int SBIPMinX;
 	int SBIPMinY;
 	int SBIPMaxX;
 	int SBIPMaxY;
+
 	ArrayList<SoftBody> colliders;
 	final Board board;
 
@@ -50,14 +47,17 @@ class SoftBody extends GlobalScope {
 
 	private void setSBIP(boolean shouldRemove) {
 		double radius = getRadius() * FIGHT_RANGE;
-		prevSBIPMinX = SBIPMinX;
-		prevSBIPMinY = SBIPMinY;
-		prevSBIPMaxX = SBIPMaxX;
-		prevSBIPMaxY = SBIPMaxY;
+
+		int prevSBIPMinX = SBIPMinX;
+		int prevSBIPMinY = SBIPMinY;
+		int prevSBIPMaxX = SBIPMaxX;
+		int prevSBIPMaxY = SBIPMaxY;
+
 		SBIPMinX = xBound((int) (Math.floor(px - radius)));
 		SBIPMinY = yBound((int) (Math.floor(py - radius)));
 		SBIPMaxX = xBound((int) (Math.floor(px + radius)));
 		SBIPMaxY = yBound((int) (Math.floor(py + radius)));
+
 		if (prevSBIPMinX != SBIPMinX || prevSBIPMinY != SBIPMinY ||
 			prevSBIPMaxX != SBIPMaxX || prevSBIPMaxY != SBIPMaxY) {
 			if (shouldRemove) {
