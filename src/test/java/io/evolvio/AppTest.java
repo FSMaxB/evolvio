@@ -1,4 +1,4 @@
-package de.maxbruckner.java;
+package io.evolvio;
 
 import org.junit.jupiter.api.Test;
 import org.assertj.core.api.WithAssertions;
