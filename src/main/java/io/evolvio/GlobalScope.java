@@ -150,8 +150,8 @@ public class GlobalScope {
 		return Evolvio.app.random(low, high);
 	}
 
-	public static float atan2(float x, float y) {
-		return PApplet.atan2(x, y);
+	public static float atan2(float y, float x) {
+		return PApplet.atan2(y, x);
 	}
 
 	public static void noiseSeed(long seed) {
