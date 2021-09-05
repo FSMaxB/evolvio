@@ -1,17 +1,16 @@
 package io.evolvio;
 
 class Axon {
-	final double MUTABILITY_MUTABILITY = 0.7;
-	final int mutatePower = 9;
-	final double MUTATE_MULTI;
+	private static final double MUTABILITY_MUTABILITY = 0.7;
+	private static final int MUTATE_POWER = 9;
+	private static final double MUTATE_MULTI = Math.pow(0.5, MUTATE_POWER);
 
-	double weight;
-	double mutability;
+	final double weight;
+	final double mutability;
 
 	public Axon(double w, double m) {
 		weight = w;
 		mutability = m;
-		MUTATE_MULTI = Math.pow(0.5, mutatePower);
 	}
 
 	public Axon mutateAxon() {
@@ -20,7 +19,7 @@ class Axon {
 	}
 
 	public double r() {
-		return Math.pow(pmRan(), mutatePower);
+		return Math.pow(pmRan(), MUTATE_POWER);
 	}
 
 	public double pmRan() {

@@ -3,10 +3,10 @@ package io.evolvio;
 import java.util.ArrayList;
 
 class SoftBody extends GlobalScope {
-	final float ENERGY_DENSITY = 1.0f / (0.2f * 0.2f * PI); //set so when a creature is of minimum size, it equals one.
-	final float FRICTION = 0.03f;
-	final float COLLISION_FORCE = 0.1f;
-	final float FIGHT_RANGE = 2.0f;
+	private static final float ENERGY_DENSITY = 1.0f / (0.2f * 0.2f * PI); //set so when a creature is of minimum size, it equals one.
+	static final float FRICTION = 0.03f;
+	private static final float COLLISION_FORCE = 0.1f;
+	static final float FIGHT_RANGE = 2.0f;
 	double px;
 	double py;
 	double vx;
@@ -14,22 +14,22 @@ class SoftBody extends GlobalScope {
 	double energy;
 	double density;
 	double hue;
-	double saturation;
-	double brightness;
-	double birthTime;
+	final double saturation;
+	final double brightness;
+	final double birthTime;
 	boolean isCreature = false;
 	double fightLevel = 0;
 
-	int prevSBIPMinX;
-	int prevSBIPMinY;
-	int prevSBIPMaxX;
-	int prevSBIPMaxY;
+	private int prevSBIPMinX;
+	private int prevSBIPMinY;
+	private int prevSBIPMaxX;
+	private int prevSBIPMaxY;
 	int SBIPMinX;
 	int SBIPMinY;
 	int SBIPMaxX;
 	int SBIPMaxY;
 	ArrayList<SoftBody> colliders;
-	Board board;
+	final Board board;
 
 	public SoftBody(double tpx, double tpy, double tvx, double tvy, double tenergy, double tdensity,
 					double thue, double tsaturation, double tbrightness, Board tb, double bt) {

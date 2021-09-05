@@ -1,15 +1,15 @@
 package io.evolvio;
 
 class Tile extends GlobalScope {
-	public final int barrenColor = color(0, 0, 1);
-	public final int fertileColor = color(0, 0, 0.2f);
-	public final int blackColor = color(0, 1, 0);
-	public final int waterColor = color(0, 0, 0);
-	public final float FOOD_GROWTH_RATE = 1.0f;
-	private final float maxGrowthLevel = 1.0f;
-	public float climateType;
-	public float foodType;
-	float fertility;
+	private static final int BARREN_COLOR = color(0, 0, 1);
+	private static final int FERTILE_COLOR = color(0, 0, 0.2f);
+	private static final int BLACK_COLOR = color(0, 1, 0);
+	private static final int WATER_COLOR = color(0, 0, 0);
+	private static final float FOOD_GROWTH_RATE = 1.0f;
+	private static final float MAX_GROWTH_LEVEL = 1.0f;
+	private final float climateType;
+	float foodType;
+	final float fertility;
 	float foodLevel;
 	private final int posX;
 	private final int posY;
@@ -47,12 +47,12 @@ class Tile extends GlobalScope {
 			foodLevel = 0;
 		} else {
 			if (growableTime > 0) {
-				if (foodLevel < maxGrowthLevel) {
-					double foodGrowthAmount = (maxGrowthLevel - foodLevel) * fertility * FOOD_GROWTH_RATE * timeStep * growableTime;
+				if (foodLevel < MAX_GROWTH_LEVEL) {
+					double foodGrowthAmount = (MAX_GROWTH_LEVEL - foodLevel) * fertility * FOOD_GROWTH_RATE * timeStep * growableTime;
 					addFood(foodGrowthAmount, climateType);
 				}
 			} else {
-				foodLevel += maxGrowthLevel * foodLevel * FOOD_GROWTH_RATE * timeStep * growableTime;
+				foodLevel += MAX_GROWTH_LEVEL * foodLevel * FOOD_GROWTH_RATE * timeStep * growableTime;
 			}
 		}
 		foodLevel = max(foodLevel, 0);
@@ -68,11 +68,11 @@ class Tile extends GlobalScope {
 	public int getColor() {
 		int foodColor = color(foodType, 1, 1);
 		if (fertility > 1) {
-			return waterColor;
-		} else if (foodLevel < maxGrowthLevel) {
-			return interColorFixedHue(interColor(barrenColor, fertileColor, fertility), foodColor, foodLevel / maxGrowthLevel, hue(foodColor));
+			return WATER_COLOR;
+		} else if (foodLevel < MAX_GROWTH_LEVEL) {
+			return interColorFixedHue(interColor(BARREN_COLOR, FERTILE_COLOR, fertility), foodColor, foodLevel / MAX_GROWTH_LEVEL, hue(foodColor));
 		} else {
-			return interColorFixedHue(foodColor, blackColor, 1.0f - maxGrowthLevel / foodLevel, hue(foodColor));
+			return interColorFixedHue(foodColor, BLACK_COLOR, 1.0f - MAX_GROWTH_LEVEL / foodLevel, hue(foodColor));
 		}
 	}
 

@@ -5,51 +5,52 @@ import processing.core.PFont;
 import java.util.ArrayList;
 
 class Board extends GlobalScope {
-	final float THERMOMETER_MIN = -2;
-	final float THERMOMETER_MAX = 2;
-	final int ROCKS_TO_ADD;
-	final float MIN_ROCK_ENERGY_BASE = 0.8f;
-	final float MAX_ROCK_ENERGY_BASE = 1.6f;
-	final float MIN_CREATURE_ENERGY = 1.2f;
-	final float MAX_CREATURE_ENERGY = 2.0f;
-	final float ROCK_DENSITY = 5;
-	final float OBJECT_TIMESTEPS_PER_YEAR = 100;
-	final int ROCK_COLOR = color(0, 0, 0.5f);
-	final int BACKGROUND_COLOR = color(0, 0, 0.1f);
-	final float MINIMUM_SURVIVABLE_SIZE = 0.2f;
-	final int LIST_SLOTS = 6;
-	final int creatureMinimumIncrement = 5;
-	final double FLASH_SPEED = 80;
-	int boardWidth;
-	int boardHeight;
+	private static final float THERMOMETER_MIN = -2;
+	private static final float THERMOMETER_MAX = 2;
+	private final int ROCKS_TO_ADD;
+	private static final float MIN_ROCK_ENERGY_BASE = 0.8f;
+	private static final float MAX_ROCK_ENERGY_BASE = 1.6f;
+	private static final float MIN_CREATURE_ENERGY = 1.2f;
+	private static final float MAX_CREATURE_ENERGY = 2.0f;
+	private static final float ROCK_DENSITY = 5;
+	private static final float OBJECT_TIMESTEPS_PER_YEAR = 100;
+	private static final int ROCK_COLOR = color(0, 0, 0.5f);
+	static final int BACKGROUND_COLOR = color(0, 0, 0.1f);
+	static final float MINIMUM_SURVIVABLE_SIZE = 0.2f;
+	static final int LIST_SLOTS = 6;
+	static final int CREATURE_MINIMUM_INCREMENT = 5;
+	private static final double FLASH_SPEED = 80;
+	final int boardWidth;
+	final int boardHeight;
 	int creatureMinimum;
-	Tile[][] tiles;
+	final Tile[][] tiles;
 	double year = 0;
-	float MIN_TEMPERATURE;
-	float MAX_TEMPERATURE;
-	ArrayList[][] softBodiesInPositions;
-	ArrayList<SoftBody> rocks;
-	ArrayList<Creature> creatures;
+	private float MIN_TEMPERATURE;
+	private float MAX_TEMPERATURE;
+	final ArrayList[][] softBodiesInPositions;
+	private final ArrayList<SoftBody> rocks;
+	final ArrayList<Creature> creatures;
 	Creature selectedCreature = null;
 	int creatureIDUpTo = 0;
-	float[] letterFrequencies = {8.167f, 1.492f, 2.782f, 4.253f, 12.702f, 2.228f, 2.015f, 6.094f, 6.966f, 0.153f, 0.772f, 4.025f, 2.406f, 6.749f,
+	// TODO: The letter frequencies should be on the creature, not the board!
+	static final float[] LETTER_FREQUENCIES = {8.167f, 1.492f, 2.782f, 4.253f, 12.702f, 2.228f, 2.015f, 6.094f, 6.966f, 0.153f, 0.772f, 4.025f, 2.406f, 6.749f,
 		7.507f, 1.929f, 0.095f, 5.987f, 6.327f, 9.056f, 2.758f, 0.978f, 2.361f, 0.150f, 1.974f, 10000.0f};//0.074};
 	int creatureRankMetric = 0;
-	int buttonColor = color(0.82f, 0.8f, 0.7f);
-	Creature[] list = new Creature[LIST_SLOTS];
-	String folder;
-	int[] fileSaveCounts;
-	double[] fileSaveTimes;
+	private final static int BUTTON_COLOR = color(0.82f, 0.8f, 0.7f);
+	final Creature[] list = new Creature[LIST_SLOTS];
+	private final String folder;
+	private final int[] fileSaveCounts;
+	private final double[] fileSaveTimes;
 	double imageSaveInterval = 1;
 	double textSaveInterval = 1;
 	boolean userControl;
-	float temperature;
-	double MANUAL_BIRTH_SIZE = 1.2;
-	boolean wasPressingB = false;
-	double timeStep;
-	int POPULATION_HISTORY_LENGTH = 200;
-	int[] populationHistory;
-	double recordPopulationEvery = 0.02;
+	private float temperature;
+	private final static double MANUAL_BIRTH_SIZE = 1.2;
+	private boolean wasPressingB = false;
+	private final double timeStep;
+	private final static int POPULATION_HISTORY_LENGTH = 200;
+	private final int[] populationHistory;
+	private final static double RECORD_POPULATION_EVERY = 0.02;
 	int playSpeed = 1;
 
 	public Board(int w, int h, float stepSize, float min, float max, int rta, int cm, int SEED, String INITIAL_FILE_NAME, double ts) {
@@ -198,7 +199,7 @@ class Board extends GlobalScope {
 				}
 			}
 			noStroke();
-			fill(buttonColor);
+			fill(BUTTON_COLOR);
 			rect(10, 95, 220, 40);
 			rect(240, 95, 220, 40);
 			fill(0, 0, 1);
@@ -218,7 +219,7 @@ class Board extends GlobalScope {
 			for (int i = 0; i < 8; i++) {
 				float x = (i % 2) * 230 + 10;
 				float y = floor(i / 2) * 50 + 570;
-				fill(buttonColor);
+				fill(BUTTON_COLOR);
 				rect(x, y, 220, 40);
 				if (i >= 2 && i < 6) {
 					double flashAlpha = 1.0 * Math.pow(0.5, (year - fileSaveTimes[i - 2]) * FLASH_SPEED);
@@ -229,8 +230,8 @@ class Board extends GlobalScope {
 				text(buttonTexts[i], x + 110, y + 17);
 				if (i == 0) {
 				} else if (i == 1) {
-					text("-" + creatureMinimumIncrement +
-						"                    +" + creatureMinimumIncrement, x + 110, y + 37);
+					text("-" + CREATURE_MINIMUM_INCREMENT +
+						"                    +" + CREATURE_MINIMUM_INCREMENT, x + 110, y + 37);
 				} else if (i <= 5) {
 					text(getNextFileName(i - 2), x + 110, y + 37);
 				}
@@ -326,7 +327,7 @@ class Board extends GlobalScope {
 	public void iterate(double timeStep) {
 		double prevYear = year;
 		year += timeStep;
-		if (Math.floor(year / recordPopulationEvery) != Math.floor(prevYear / recordPopulationEvery)) {
+		if (Math.floor(year / RECORD_POPULATION_EVERY) != Math.floor(prevYear / RECORD_POPULATION_EVERY)) {
 			for (int i = POPULATION_HISTORY_LENGTH - 1; i >= 1; i--) {
 				populationHistory[i] = populationHistory[i - 1];
 			}

@@ -5,46 +5,46 @@ import processing.core.PFont;
 import java.util.ArrayList;
 
 class Creature extends SoftBody {
-	final int ENERGY_HISTORY_LENGTH = 6;
-	final double SAFE_SIZE = 1.25;
-	final double MATURE_AGE = 0.01;
-	final double STARTING_AXON_VARIABILITY = 1.0;
-	final double FOOD_SENSITIVITY = 0.3;
-	final int BRAIN_WIDTH = 3;
-	final int BRAIN_HEIGHT = 12;
-	final double AXON_START_MUTABILITY = 0.0005;
-	final int MIN_NAME_LENGTH = 3;
-	final int MAX_NAME_LENGTH = 10;
-	final float BRIGHTNESS_THRESHOLD = 0.7f;
-	double ACCELERATION_ENERGY = 0.03;
-	double ACCELERATION_BACK_ENERGY = 0.05;
-	double SWIM_ENERGY = 0.008;
-	double TURN_ENERGY = 0.01;
-	double EAT_ENERGY = 0.04;
-	double EAT_SPEED = 0.9; // 1 is instant, 0 is nonexistent, 0.001 is verrry slow.
-	double FIGHT_ENERGY = 0.03;
-	double INJURED_ENERGY = 0.25;
-	double METABOLISM_ENERGY = 0.004;
+	private static final int ENERGY_HISTORY_LENGTH = 6;
+	static final double SAFE_SIZE = 1.25;
+	private static final double MATURE_AGE = 0.01;
+	private static final double STARTING_AXON_VARIABILITY = 1.0;
+	private static final double FOOD_SENSITIVITY = 0.3;
+	private static final int BRAIN_WIDTH = 3;
+	private static final int BRAIN_HEIGHT = 12;
+	private static final double AXON_START_MUTABILITY = 0.0005;
+	private static final int MIN_NAME_LENGTH = 3;
+	private static final int MAX_NAME_LENGTH = 10;
+	private static final float BRIGHTNESS_THRESHOLD = 0.7f;
+	private static final double ACCELERATION_ENERGY = 0.03;
+	private static final double ACCELERATION_BACK_ENERGY = 0.05;
+	private static final double SWIM_ENERGY = 0.008;
+	private static final double TURN_ENERGY = 0.01;
+	private static final double EAT_ENERGY = 0.04;
+	private static final double EAT_SPEED = 0.9; // 1 is instant, 0 is nonexistent, 0.001 is verrry slow.
+	private static final double FIGHT_ENERGY = 0.03;
+	private static final double INJURED_ENERGY = 0.25;
+	private static final double METABOLISM_ENERGY = 0.004;
 	String name;
-	String parents;
-	int gen;
-	int id;
-	double[] previousEnergy = new double[ENERGY_HISTORY_LENGTH];
-	double vr;
+	final String parents;
+	final int gen;
+	final int id;
+	private final double[] previousEnergy = new double[ENERGY_HISTORY_LENGTH];
+	private double vr;
 	double rotation;
-	Axon[][][] axons;
-	double[][] neurons;
+	private final Axon[][][] axons;
+	private double[][] neurons;
 
 	float preferredRank = 8;
-	double[] visionAngles = {0, -0.4, 0.4};
-	double[] visionDistances = {0, 1.42, 1.42};
-	double[] visionOccludedX = new double[visionAngles.length];
-	double[] visionOccludedY = new double[visionAngles.length];
-	double[] visionResults = new double[9];
-	int MEMORY_COUNT = 1;
-	double[] memories;
+	private static final double[] VISION_ANGLES = {0, -0.4, 0.4};
+	private static final double[] VISION_DISTANCES = {0, 1.42, 1.42};
+	private final double[] visionOccludedX = new double[VISION_ANGLES.length];
+	private final double[] visionOccludedY = new double[VISION_ANGLES.length];
+	private final double[] visionResults = new double[9];
+	private static final int MEMORY_COUNT = 1;
+	private final double[] memories;
 
-	float CROSS_SIZE = 0.05f;
+	private static final float CROSS_SIZE = 0.05f;
 
 	double mouthHue;
 
@@ -219,7 +219,7 @@ class Creature extends SoftBody {
 		ellipseMode(RADIUS);
 		double radius = getRadius();
 		if (showVision) {
-			for (int i = 0; i < visionAngles.length; i++) {
+			for (int i = 0; i < VISION_ANGLES.length; i++) {
 				int visionUIcolor = color(0, 0, 1);
 				if (visionResults[i * 3 + 2] > BRIGHTNESS_THRESHOLD) {
 					visionUIcolor = color(0, 0, 0);
@@ -367,10 +367,10 @@ class Creature extends SoftBody {
 	}
 
 	public void see() {
-		for (int k = 0; k < visionAngles.length; k++) {
+		for (int k = 0; k < VISION_ANGLES.length; k++) {
 			double visionStartX = px;
 			double visionStartY = py;
-			double visionTotalAngle = rotation + visionAngles[k];
+			double visionTotalAngle = rotation + VISION_ANGLES[k];
 
 			double endX = getVisionEndX(k);
 			double endY = getVisionEndY(k);
@@ -387,7 +387,7 @@ class Creature extends SoftBody {
 			int prevTileX = -1;
 			int prevTileY = -1;
 			ArrayList<SoftBody> potentialVisionOccluders = new ArrayList<SoftBody>();
-			for (int DAvision = 0; DAvision < visionDistances[k] + 1; DAvision++) {
+			for (int DAvision = 0; DAvision < VISION_DISTANCES[k] + 1; DAvision++) {
 				tileX = (int) (visionStartX + Math.cos(visionTotalAngle) * DAvision);
 				tileY = (int) (visionStartY + Math.sin(visionTotalAngle) * DAvision);
 				if (tileX != prevTileX || tileY != prevTileY) {
@@ -404,7 +404,7 @@ class Creature extends SoftBody {
 			rotationMatrix[1][1] = rotationMatrix[0][0] = Math.cos(-visionTotalAngle);
 			rotationMatrix[0][1] = Math.sin(-visionTotalAngle);
 			rotationMatrix[1][0] = -rotationMatrix[0][1];
-			double visionLineLength = visionDistances[k];
+			double visionLineLength = VISION_DISTANCES[k];
 			for (int i = 0; i < potentialVisionOccluders.size(); i++) {
 				SoftBody body = potentialVisionOccluders.get(i);
 				double x = body.px - px;
@@ -575,7 +575,7 @@ class Creature extends SoftBody {
 		float letterFactor = random(0, 100);
 		int letterChoice = 0;
 		while (letterFactor > 0) {
-			letterFactor -= board.letterFrequencies[letterChoice];
+			letterFactor -= board.LETTER_FREQUENCIES[letterChoice];
 			letterChoice++;
 		}
 		return (char) (letterChoice + 96);
@@ -702,12 +702,12 @@ class Creature extends SoftBody {
 	}
 
 	public double getVisionEndX(int i) {
-		double visionTotalAngle = rotation + visionAngles[i];
-		return px + visionDistances[i] * Math.cos(visionTotalAngle);
+		double visionTotalAngle = rotation + VISION_ANGLES[i];
+		return px + VISION_DISTANCES[i] * Math.cos(visionTotalAngle);
 	}
 
 	public double getVisionEndY(int i) {
-		double visionTotalAngle = rotation + visionAngles[i];
-		return py + visionDistances[i] * Math.sin(visionTotalAngle);
+		double visionTotalAngle = rotation + VISION_ANGLES[i];
+		return py + VISION_DISTANCES[i] * Math.sin(visionTotalAngle);
 	}
 }

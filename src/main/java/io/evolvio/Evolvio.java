@@ -9,30 +9,31 @@ import processing.event.MouseEvent;
  */
 public class Evolvio extends PApplet {
 	public static Evolvio app;
-	final int SEED = 48;
-	final float NOISE_STEP_SIZE = 0.1f;
-	final int BOARD_WIDTH = 100;
-	final int BOARD_HEIGHT = 100;
-	final int WINDOW_WIDTH = 1920;
-	final int WINDOW_HEIGHT = 1080;
-	final float SCALE_TO_FIX_BUG = 100;
-	final float GROSS_OVERALL_SCALE_FACTOR = ((float) WINDOW_HEIGHT) / BOARD_HEIGHT / SCALE_TO_FIX_BUG;
-	final double TIME_STEP = 0.001f;
-	final float MIN_TEMPERATURE = -0.5f;
-	final float MAX_TEMPERATURE = 1.0f;
-	final int ROCKS_TO_ADD = 0;
-	final int CREATURE_MINIMUM = 60;
-	final String INITIAL_FILE_NAME = "DEFAULT";
-	Board evoBoard;
-	float cameraX = BOARD_WIDTH * 0.5f;
-	float cameraY = BOARD_HEIGHT * 0.5f;
-	float cameraR = 0;
-	float zoom = 1;
+
+	private static final int SEED = 48;
+	private static final float NOISE_STEP_SIZE = 0.1f;
+	private static final int BOARD_WIDTH = 100;
+	private static final int BOARD_HEIGHT = 100;
+	private static final int WINDOW_WIDTH = 1920;
+	private static final int WINDOW_HEIGHT = 1080;
+	private static final float SCALE_TO_FIX_BUG = 100;
+	private static final float GROSS_OVERALL_SCALE_FACTOR = ((float) WINDOW_HEIGHT) / BOARD_HEIGHT / SCALE_TO_FIX_BUG;
+	private static final double TIME_STEP = 0.001f;
+	private static final float MIN_TEMPERATURE = -0.5f;
+	private static final float MAX_TEMPERATURE = 1.0f;
+	private static final int ROCKS_TO_ADD = 0;
+	private static final int CREATURE_MINIMUM = 60;
+	private static final String INITIAL_FILE_NAME = "DEFAULT";
+	private Board evoBoard;
+	private float cameraX = BOARD_WIDTH * 0.5f;
+	private float cameraY = BOARD_HEIGHT * 0.5f;
+	private float cameraR = 0;
+	private float zoom = 1;
 	PFont font;
-	int dragging = 0; // 0 = no drag, 1 = drag screen, 2 and 3 are dragging temp extremes.
-	float prevMouseX;
-	float prevMouseY;
-	boolean draggedFar = false;
+	private int dragging = 0; // 0 = no drag, 1 = drag screen, 2 and 3 are dragging temp extremes.
+	private float prevMouseX;
+	private float prevMouseY;
+	private boolean draggedFar = false;
 
 	public static void main(String[] args) {
 		PApplet.main("io.evolvio.Evolvio");
@@ -137,9 +138,9 @@ public class Evolvio extends PApplet {
 						evoBoard.userControl = !evoBoard.userControl;
 					} else if (buttonNum == 1) {
 						if (clickedOnLeft) {
-							evoBoard.creatureMinimum -= evoBoard.creatureMinimumIncrement;
+							evoBoard.creatureMinimum -= evoBoard.CREATURE_MINIMUM_INCREMENT;
 						} else {
-							evoBoard.creatureMinimum += evoBoard.creatureMinimumIncrement;
+							evoBoard.creatureMinimum += evoBoard.CREATURE_MINIMUM_INCREMENT;
 						}
 					} else if (buttonNum == 2) {
 						evoBoard.prepareForFileSave(0);
