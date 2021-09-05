@@ -197,11 +197,11 @@ class Creature extends SoftBody {
 		}
 	}
 
-	private double sigmoid(double input) {
+	private static double sigmoid(double input) {
 		return 1.0 / (1.0 + Math.pow(2.71828182846, -input));
 	}
 
-	private int neuronFillColor(double d) {
+	private static int neuronFillColor(double d) {
 		if (d >= 0) {
 			return color(0, 0, 1, (float) (d));
 		} else {
@@ -209,7 +209,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	private int neuronTextColor(double d) {
+	private static int neuronTextColor(double d) {
 		if (d >= 0) {
 			return color(0, 0, 0);
 		} else {
@@ -438,7 +438,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	private double distance(double x1, double y1, double x2, double y2) {
+	private static double distance(double x1, double y1, double x2, double y2) {
 		return (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 	}
 
@@ -542,7 +542,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	private String stitchName(String[] s) {
+	private static String stitchName(String[] s) {
 		String result = "";
 		for (int i = 0; i < s.length; i++) {
 			float portion = ((float) s[i].length()) / s.length;
@@ -553,7 +553,7 @@ class Creature extends SoftBody {
 		return result;
 	}
 
-	private String andifyParents(String[] s) {
+	private static String andifyParents(String[] s) {
 		String result = "";
 		for (int i = 0; i < s.length; i++) {
 			if (i >= 1) {
@@ -564,7 +564,7 @@ class Creature extends SoftBody {
 		return result;
 	}
 
-	private String createNewName() {
+	private static String createNewName() {
 		String nameSoFar = "";
 		int chosenLength = (int) (random(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
 		for (int i = 0; i < chosenLength; i++) {
@@ -573,7 +573,7 @@ class Creature extends SoftBody {
 		return sanitizeName(nameSoFar);
 	}
 
-	private char getRandomChar() {
+	private static char getRandomChar() {
 		float letterFactor = random(0, 100);
 		int letterChoice = 0;
 		while (letterFactor > 0) {
@@ -583,7 +583,7 @@ class Creature extends SoftBody {
 		return (char) (letterChoice + 96);
 	}
 
-	private String sanitizeName(String input) {
+	private static String sanitizeName(String input) {
 		String output = "";
 		int vowelsSoFar = 0;
 		int consonantsSoFar = 0;
@@ -629,15 +629,15 @@ class Creature extends SoftBody {
 		return capitalize(name);
 	}
 
-	private String capitalize(String n) {
+	private static String capitalize(String n) {
 		return n.substring(0, 1).toUpperCase() + n.substring(1);
 	}
 
-	private boolean isVowel(char a) {
+	private static boolean isVowel(char a) {
 		return (a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u' || a == 'y');
 	}
 
-	private String mutateName(String input) {
+	private static String mutateName(String input) {
 		if (input.length() >= 3) {
 			if (random(0, 1) < 0.2) {
 				int removeIndex = (int) random(0, input.length());

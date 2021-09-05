@@ -76,14 +76,14 @@ class Tile extends GlobalScope {
 		}
 	}
 
-	private int interColor(int a, int b, float x) {
+	private static int interColor(int a, int b, float x) {
 		float hue = inter(hue(a), hue(b), x);
 		float sat = inter(saturation(a), saturation(b), x);
 		float bri = inter(brightness(a), brightness(b), x); // I know it's dumb to do interpolation with HSL but oh well
 		return color(hue, sat, bri);
 	}
 
-	private int interColorFixedHue(int a, int b, float x, float hue) {
+	private static int interColorFixedHue(int a, int b, float x, float hue) {
 		float satB = saturation(b);
 		if (brightness(b) == 0) { // I want black to be calculated as 100% saturation
 			satB = 1;
@@ -93,7 +93,7 @@ class Tile extends GlobalScope {
 		return color(hue, sat, bri);
 	}
 
-	private float inter(float a, float b, float x) {
+	private static float inter(float a, float b, float x) {
 		return a + (b - a) * x;
 	}
 }

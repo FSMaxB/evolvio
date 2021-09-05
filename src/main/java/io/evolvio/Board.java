@@ -24,8 +24,8 @@ class Board extends GlobalScope {
 	int creatureMinimum;
 	final Tile[][] tiles;
 	double year = 0;
-	private float MIN_TEMPERATURE;
-	private float MAX_TEMPERATURE;
+	private float minTemperature;
+	private float maxTemperature;
 	final ArrayList[][] softBodiesInPositions;
 	private final ArrayList<SoftBody> rocks;
 	final ArrayList<Creature> creatures;
@@ -64,8 +64,8 @@ class Board extends GlobalScope {
 				tiles[x][y] = new Tile(x, y, fertility, 0, climateType);
 			}
 		}
-		MIN_TEMPERATURE = min;
-		MAX_TEMPERATURE = max;
+		minTemperature = min;
+		maxTemperature = max;
 
 		softBodiesInPositions = new ArrayList[boardWidth][boardHeight];
 		for (int x = 0; x < boardWidth; x++) {
@@ -397,8 +397,8 @@ class Board extends GlobalScope {
 	}
 
 	private float getGrowableTime() {
-		float temperatureRange = MAX_TEMPERATURE - MIN_TEMPERATURE;
-		return MIN_TEMPERATURE + temperatureRange * 0.5f - temperatureRange * 0.5f * cos((float) (getSeason() * 2 * PI));
+		float temperatureRange = maxTemperature - minTemperature;
+		return minTemperature + temperatureRange * 0.5f - temperatureRange * 0.5f * cos((float) (getSeason() * 2 * PI));
 	}
 
 	private double getSeason() {
@@ -421,8 +421,8 @@ class Board extends GlobalScope {
 		stroke(0, 0, 1);
 		strokeWeight(3);
 		line(x1, zeroLineY, x1 + w, zeroLineY);
-		float minY = y1 + h * (1 - (MIN_TEMPERATURE - min) / (max - min));
-		float maxY = y1 + h * (1 - (MAX_TEMPERATURE - min) / (max - min));
+		float minY = y1 + h * (1 - (minTemperature - min) / (max - min));
+		float maxY = y1 + h * (1 - (maxTemperature - min) / (max - min));
 		fill(0, 0, 0.8f);
 		line(x1, minY, x1 + w * 1.8f, minY);
 		line(x1, maxY, x1 + w * 1.8f, maxY);
@@ -430,45 +430,45 @@ class Board extends GlobalScope {
 
 		fill(0, 0, 1);
 		text("Zero", x1 - 5, zeroLineY + 8);
-		text(nf(MIN_TEMPERATURE, 0, 2), x1 - 5, minY + 8);
-		text(nf(MAX_TEMPERATURE, 0, 2), x1 - 5, maxY + 8);
+		text(nf(minTemperature, 0, 2), x1 - 5, minY + 8);
+		text(nf(maxTemperature, 0, 2), x1 - 5, maxY + 8);
 	}
 
 	boolean setMinTemperature(float temp) {
-		MIN_TEMPERATURE = tempBounds(THERMOMETER_MIN + temp * (THERMOMETER_MAX - THERMOMETER_MIN));
-		if (MIN_TEMPERATURE > MAX_TEMPERATURE) {
-			float placeHolder = MAX_TEMPERATURE;
-			MAX_TEMPERATURE = MIN_TEMPERATURE;
-			MIN_TEMPERATURE = placeHolder;
+		minTemperature = tempBounds(THERMOMETER_MIN + temp * (THERMOMETER_MAX - THERMOMETER_MIN));
+		if (minTemperature > maxTemperature) {
+			float placeHolder = maxTemperature;
+			maxTemperature = minTemperature;
+			minTemperature = placeHolder;
 			return true;
 		}
 		return false;
 	}
 
 	boolean setMaxTemperature(float temp) {
-		MAX_TEMPERATURE = tempBounds(THERMOMETER_MIN + temp * (THERMOMETER_MAX - THERMOMETER_MIN));
-		if (MIN_TEMPERATURE > MAX_TEMPERATURE) {
-			float placeHolder = MAX_TEMPERATURE;
-			MAX_TEMPERATURE = MIN_TEMPERATURE;
-			MIN_TEMPERATURE = placeHolder;
+		maxTemperature = tempBounds(THERMOMETER_MIN + temp * (THERMOMETER_MAX - THERMOMETER_MIN));
+		if (minTemperature > maxTemperature) {
+			float placeHolder = maxTemperature;
+			maxTemperature = minTemperature;
+			minTemperature = placeHolder;
 			return true;
 		}
 		return false;
 	}
 
-	private float tempBounds(float temp) {
+	static private float tempBounds(float temp) {
 		return min(max(temp, THERMOMETER_MIN), THERMOMETER_MAX);
 	}
 
 	float getHighTempProportion() {
-		return (MAX_TEMPERATURE - THERMOMETER_MIN) / (THERMOMETER_MAX - THERMOMETER_MIN);
+		return (maxTemperature - THERMOMETER_MIN) / (THERMOMETER_MAX - THERMOMETER_MIN);
 	}
 
 	float getLowTempProportion() {
-		return (MIN_TEMPERATURE - THERMOMETER_MIN) / (THERMOMETER_MAX - THERMOMETER_MIN);
+		return (minTemperature - THERMOMETER_MIN) / (THERMOMETER_MAX - THERMOMETER_MIN);
 	}
 
-	private String toDate(double d) {
+	private static String toDate(double d) {
 		return "Year " + nf((float) (d), 0, 2);
 	}
 
@@ -495,11 +495,12 @@ class Board extends GlobalScope {
 		return creatures.get(index);
 	}
 
-	private double getRandomSize() {
+	private static double getRandomSize() {
 		return pow(random(MIN_ROCK_ENERGY_BASE, MAX_ROCK_ENERGY_BASE), 4);
 	}
 
-	private void drawCreature(Creature c, float x, float y, float scale, float scaleUp) {
+	// TODO: This seems like it belongs on the creature class
+	private static void drawCreature(Creature c, float x, float y, float scale, float scaleUp) {
 		pushMatrix();
 		float scaleIconUp = scaleUp * scale;
 		translate((float) (-c.px * scaleIconUp), (float) (-c.py * scaleIconUp));
@@ -527,7 +528,7 @@ class Board extends GlobalScope {
 		}
 	}
 
-	String[] toBigString() {
+	static String[] toBigString() {
 		String[] placeholder = {"Goo goo", "Ga ga"};
 		return placeholder;
 	}
