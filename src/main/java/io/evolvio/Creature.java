@@ -27,6 +27,8 @@ class Creature extends SoftBody {
 	private static final double METABOLISM_ENERGY = 0.004;
 	String name;
 	final String parents;
+	private static final float[] LETTER_FREQUENCIES = {8.167f, 1.492f, 2.782f, 4.253f, 12.702f, 2.228f, 2.015f, 6.094f, 6.966f, 0.153f, 0.772f, 4.025f, 2.406f, 6.749f,
+		7.507f, 1.929f, 0.095f, 5.987f, 6.327f, 9.056f, 2.758f, 0.978f, 2.361f, 0.150f, 1.974f, 10000.0f};//0.074};
 	final int gen;
 	final int id;
 	private final double[] previousEnergy = new double[ENERGY_HISTORY_LENGTH];
@@ -575,7 +577,7 @@ class Creature extends SoftBody {
 		float letterFactor = random(0, 100);
 		int letterChoice = 0;
 		while (letterFactor > 0) {
-			letterFactor -= board.LETTER_FREQUENCIES[letterChoice];
+			letterFactor -= LETTER_FREQUENCIES[letterChoice];
 			letterChoice++;
 		}
 		return (char) (letterChoice + 96);
