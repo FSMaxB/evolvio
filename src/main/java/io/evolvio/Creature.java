@@ -50,7 +50,7 @@ class Creature extends SoftBody {
 
 	double mouthHue;
 
-	public Creature(double tpx, double tpy, double tvx, double tvy, double tenergy,
+	Creature(double tpx, double tpy, double tvx, double tvy, double tenergy,
 					double tdensity, double thue, double tsaturation, double tbrightness, Board tb, double bt,
 					double rot, double tvr, String tname, String tparents, boolean mutateName,
 					Axon[][][] tbrain, double[][] tneurons, int tgen, double tmouthHue) {
@@ -110,7 +110,7 @@ class Creature extends SoftBody {
 		mouthHue = tmouthHue;
 	}
 
-	public void drawBrain(PFont font, float scaleUp, int mX, int mY) {
+	void drawBrain(PFont font, float scaleUp, int mX, int mY) {
 		final float neuronSize = 0.4f;
 		noStroke();
 		fill(0, 0, 0.4f);
@@ -153,13 +153,13 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void drawAxon(int x1, int y1, int x2, int y2, float scaleUp) {
+	private void drawAxon(int x1, int y1, int x2, int y2, float scaleUp) {
 		stroke(neuronFillColor(axons[x1][y1][y2].weight * neurons[x1][y1]));
 
 		line(x1 * scaleUp, y1 * scaleUp, x2 * scaleUp, y2 * scaleUp);
 	}
 
-	public void useBrain(double timeStep, boolean useOutput) {
+	void useBrain(double timeStep, boolean useOutput) {
 		for (int i = 0; i < 9; i++) {
 			neurons[0][i] = visionResults[i];
 		}
@@ -197,11 +197,11 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public double sigmoid(double input) {
+	private double sigmoid(double input) {
 		return 1.0 / (1.0 + Math.pow(2.71828182846, -input));
 	}
 
-	public int neuronFillColor(double d) {
+	private int neuronFillColor(double d) {
 		if (d >= 0) {
 			return color(0, 0, 1, (float) (d));
 		} else {
@@ -209,7 +209,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public int neuronTextColor(double d) {
+	private int neuronTextColor(double d) {
 		if (d >= 0) {
 			return color(0, 0, 0);
 		} else {
@@ -217,7 +217,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void drawSoftBody(float scaleUp, float camZoom, boolean showVision) {
+	void drawSoftBody(float scaleUp, float camZoom, boolean showVision) {
 		ellipseMode(RADIUS);
 		double radius = getRadius();
 		if (showVision) {
@@ -279,11 +279,11 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void metabolize(double timeStep) {
+	void metabolize(double timeStep) {
 		loseEnergy(energy * METABOLISM_ENERGY * timeStep);
 	}
 
-	public void accelerate(double amount, double timeStep) {
+	void accelerate(double amount, double timeStep) {
 		double multiplied = amount * timeStep / getMass();
 		vx += Math.cos(rotation) * multiplied;
 		vy += Math.sin(rotation) * multiplied;
@@ -294,12 +294,12 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void turn(double amount, double timeStep) {
+	void turn(double amount, double timeStep) {
 		vr += 0.04 * amount * timeStep / getMass();
 		loseEnergy(Math.abs(amount * TURN_ENERGY * energy * timeStep));
 	}
 
-	public Tile getRandomCoveredTile() {
+	private Tile getRandomCoveredTile() {
 		double radius = (float) getRadius();
 		double choiceX = 0;
 		double choiceY = 0;
@@ -312,7 +312,7 @@ class Creature extends SoftBody {
 		return board.tiles[x][y];
 	}
 
-	public void eat(double attemptedAmount, double timeStep) {
+	void eat(double attemptedAmount, double timeStep) {
 		double amount = attemptedAmount / (1.0 + distance(0, 0, vx, vy)); // The faster you're moving, the less efficiently you can eat.
 		if (amount < 0) {
 			dropEnergy(-amount * timeStep);
@@ -335,7 +335,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void fight(double amount, double timeStep) {
+	void fight(double amount, double timeStep) {
 		if (amount > 0 && board.year - birthTime >= MATURE_AGE) {
 			fightLevel = amount;
 			loseEnergy(fightLevel * FIGHT_ENERGY * energy * timeStep);
@@ -354,13 +354,13 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void loseEnergy(double energyLost) {
+	private void loseEnergy(double energyLost) {
 		if (energyLost > 0) {
 			energy -= energyLost;
 		}
 	}
 
-	public void dropEnergy(double energyLost) {
+	private void dropEnergy(double energyLost) {
 		if (energyLost > 0) {
 			energyLost = Math.min(energyLost, energy);
 			energy -= energyLost;
@@ -368,7 +368,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void see() {
+	void see() {
 		for (int k = 0; k < VISION_ANGLES.length; k++) {
 			double visionStartX = px;
 			double visionStartY = py;
@@ -430,7 +430,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public int getColorAt(double x, double y) {
+	private int getColorAt(double x, double y) {
 		if (x >= 0 && x < board.boardWidth && y >= 0 && y < board.boardHeight) {
 			return board.tiles[(int) (x)][(int) (y)].getColor();
 		} else {
@@ -438,11 +438,11 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public double distance(double x1, double y1, double x2, double y2) {
+	private double distance(double x1, double y1, double x2, double y2) {
 		return (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
 	}
 
-	public void addPVOs(int x, int y, ArrayList<SoftBody> PVOs) {
+	private void addPVOs(int x, int y, ArrayList<SoftBody> PVOs) {
 		if (x >= 0 && x < board.boardWidth && y >= 0 && y < board.boardHeight) {
 			for (int i = 0; i < board.softBodiesInPositions[x][y].size(); i++) {
 				SoftBody newCollider = (SoftBody) board.softBodiesInPositions[x][y].get(i);
@@ -453,7 +453,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void returnToEarth() {
+	void returnToEarth() {
 		int pieces = 20;
 		for (int i = 0; i < pieces; i++) {
 			getRandomCoveredTile().addFood(energy / pieces, hue);
@@ -468,7 +468,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public void reproduce(double babySize, double timeStep) {
+	void reproduce(double babySize, double timeStep) {
 		if (colliders == null) {
 			collide();
 		}
@@ -542,7 +542,7 @@ class Creature extends SoftBody {
 		}
 	}
 
-	public String stitchName(String[] s) {
+	private String stitchName(String[] s) {
 		String result = "";
 		for (int i = 0; i < s.length; i++) {
 			float portion = ((float) s[i].length()) / s.length;
@@ -553,7 +553,7 @@ class Creature extends SoftBody {
 		return result;
 	}
 
-	public String andifyParents(String[] s) {
+	private String andifyParents(String[] s) {
 		String result = "";
 		for (int i = 0; i < s.length; i++) {
 			if (i >= 1) {
@@ -564,7 +564,7 @@ class Creature extends SoftBody {
 		return result;
 	}
 
-	public String createNewName() {
+	private String createNewName() {
 		String nameSoFar = "";
 		int chosenLength = (int) (random(MIN_NAME_LENGTH, MAX_NAME_LENGTH));
 		for (int i = 0; i < chosenLength; i++) {
@@ -573,7 +573,7 @@ class Creature extends SoftBody {
 		return sanitizeName(nameSoFar);
 	}
 
-	public char getRandomChar() {
+	private char getRandomChar() {
 		float letterFactor = random(0, 100);
 		int letterChoice = 0;
 		while (letterFactor > 0) {
@@ -583,7 +583,7 @@ class Creature extends SoftBody {
 		return (char) (letterChoice + 96);
 	}
 
-	public String sanitizeName(String input) {
+	private String sanitizeName(String input) {
 		String output = "";
 		int vowelsSoFar = 0;
 		int consonantsSoFar = 0;
@@ -625,19 +625,19 @@ class Creature extends SoftBody {
 		return output;
 	}
 
-	public String getCreatureName() {
+	String getCreatureName() {
 		return capitalize(name);
 	}
 
-	public String capitalize(String n) {
+	private String capitalize(String n) {
 		return n.substring(0, 1).toUpperCase() + n.substring(1);
 	}
 
-	public boolean isVowel(char a) {
+	private boolean isVowel(char a) {
 		return (a == 'a' || a == 'e' || a == 'i' || a == 'o' || a == 'u' || a == 'y');
 	}
 
-	public String mutateName(String input) {
+	private String mutateName(String input) {
 		if (input.length() >= 3) {
 			if (random(0, 1) < 0.2) {
 				int removeIndex = (int) random(0, input.length());
@@ -655,7 +655,8 @@ class Creature extends SoftBody {
 		return input;
 	}
 
-	public void applyMotions(double timeStep) {
+	@Override
+	void applyMotions(double timeStep) {
 		if (getRandomCoveredTile().fertility > 1) {
 			loseEnergy(SWIM_ENERGY * energy);
 		}
@@ -664,26 +665,26 @@ class Creature extends SoftBody {
 		vr *= (1 - FRICTION / getMass());
 	}
 
-	public double getEnergyUsage(double timeStep) {
+	double getEnergyUsage(double timeStep) {
 		return (energy - previousEnergy[ENERGY_HISTORY_LENGTH - 1]) / ENERGY_HISTORY_LENGTH / timeStep;
 	}
 
-	public double getBabyEnergy() {
+	private double getBabyEnergy() {
 		return energy - SAFE_SIZE;
 	}
 
-	public void addEnergy(double amount) {
+	void addEnergy(double amount) {
 		energy += amount;
 	}
 
-	public void setPreviousEnergy() {
+	void setPreviousEnergy() {
 		for (int i = ENERGY_HISTORY_LENGTH - 1; i >= 1; i--) {
 			previousEnergy[i] = previousEnergy[i - 1];
 		}
 		previousEnergy[0] = energy;
 	}
 
-	public double measure(int choice) {
+	double measure(int choice) {
 		int sign = 1 - 2 * (choice % 2);
 		if (choice < 2) {
 			return sign * energy;
@@ -695,20 +696,20 @@ class Creature extends SoftBody {
 		return 0;
 	}
 
-	public void setHue(double set) {
+	void setHue(double set) {
 		hue = Math.min(Math.max(set, 0), 1);
 	}
 
-	public void setMouthHue(double set) {
+	void setMouthHue(double set) {
 		mouthHue = Math.min(Math.max(set, 0), 1);
 	}
 
-	public double getVisionEndX(int i) {
+	private double getVisionEndX(int i) {
 		double visionTotalAngle = rotation + VISION_ANGLES[i];
 		return px + VISION_DISTANCES[i] * Math.cos(visionTotalAngle);
 	}
 
-	public double getVisionEndY(int i) {
+	private double getVisionEndY(int i) {
 		double visionTotalAngle = rotation + VISION_ANGLES[i];
 		return py + VISION_DISTANCES[i] * Math.sin(visionTotalAngle);
 	}

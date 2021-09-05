@@ -14,7 +14,7 @@ class Tile extends GlobalScope {
 	private final int posX;
 	private final int posY;
 
-	public Tile(int x, int y, float f, float food, float type) {
+	Tile(int x, int y, float f, float food, float type) {
 		posX = x;
 		posY = y;
 		fertility = max(0, f);
@@ -22,7 +22,7 @@ class Tile extends GlobalScope {
 		climateType = foodType = type;
 	}
 
-	public void drawTile(float scaleUp, boolean showEnergy) {
+	void drawTile(float scaleUp, boolean showEnergy) {
 		stroke(0, 0, 0, 1);
 		strokeWeight(2);
 		int landColor = getColor();
@@ -42,7 +42,7 @@ class Tile extends GlobalScope {
 		}
 	}
 
-	public void iterate(double timeStep, float growableTime) {
+	void iterate(double timeStep, float growableTime) {
 		if (fertility > 1) {
 			foodLevel = 0;
 		} else {
@@ -58,14 +58,14 @@ class Tile extends GlobalScope {
 		foodLevel = max(foodLevel, 0);
 	}
 
-	public void addFood(double amount, double addedFoodType) {
+	void addFood(double amount, double addedFoodType) {
 		foodLevel += amount;
 		if (foodLevel > 0) {
 			foodType += (addedFoodType - foodType) * (amount / foodLevel); // We're adding new plant growth, so we gotta "mix" the colors of the tile.
 		}
 	}
 
-	public int getColor() {
+	int getColor() {
 		int foodColor = color(foodType, 1, 1);
 		if (fertility > 1) {
 			return WATER_COLOR;
@@ -76,14 +76,14 @@ class Tile extends GlobalScope {
 		}
 	}
 
-	public int interColor(int a, int b, float x) {
+	private int interColor(int a, int b, float x) {
 		float hue = inter(hue(a), hue(b), x);
 		float sat = inter(saturation(a), saturation(b), x);
 		float bri = inter(brightness(a), brightness(b), x); // I know it's dumb to do interpolation with HSL but oh well
 		return color(hue, sat, bri);
 	}
 
-	public int interColorFixedHue(int a, int b, float x, float hue) {
+	private int interColorFixedHue(int a, int b, float x, float hue) {
 		float satB = saturation(b);
 		if (brightness(b) == 0) { // I want black to be calculated as 100% saturation
 			satB = 1;
@@ -93,7 +93,7 @@ class Tile extends GlobalScope {
 		return color(hue, sat, bri);
 	}
 
-	public float inter(float a, float b, float x) {
+	private float inter(float a, float b, float x) {
 		return a + (b - a) * x;
 	}
 }

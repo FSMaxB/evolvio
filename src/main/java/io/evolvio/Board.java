@@ -50,7 +50,7 @@ class Board extends GlobalScope {
 	private final static double RECORD_POPULATION_EVERY = 0.02;
 	int playSpeed = 1;
 
-	public Board(int w, int h, float stepSize, float min, float max, int rta, int cm, int SEED, String INITIAL_FILE_NAME, double ts) {
+	Board(int w, int h, float stepSize, float min, float max, int rta, int cm, int SEED, String INITIAL_FILE_NAME, double ts) {
 		noiseSeed(SEED);
 		randomSeed(SEED);
 		boardWidth = w;
@@ -103,7 +103,7 @@ class Board extends GlobalScope {
 		}
 	}
 
-	public void drawBoard(float scaleUp, float camZoom, int mX, int mY) {
+	void drawBoard(float scaleUp, float camZoom, int mX, int mY) {
 		for (int x = 0; x < boardWidth; x++) {
 			for (int y = 0; y < boardHeight; y++) {
 				tiles[x][y].drawTile(scaleUp, (mX == x && mY == y));
@@ -117,12 +117,12 @@ class Board extends GlobalScope {
 		}
 	}
 
-	public void drawBlankBoard(float scaleUp) {
+	void drawBlankBoard(float scaleUp) {
 		fill(BACKGROUND_COLOR);
 		rect(0, 0, scaleUp * boardWidth, scaleUp * boardHeight);
 	}
 
-	public void drawUI(float scaleUp, double timeStep, int x1, int y1, int x2, int y2, PFont font) {
+	void drawUI(float scaleUp, double timeStep, int x1, int y1, int x2, int y2, PFont font) {
 		fill(0, 0, 0);
 		noStroke();
 		rect(x1, y1, x2 - x1, y2 - y1);
@@ -296,7 +296,7 @@ class Board extends GlobalScope {
 		}
 	}
 
-	void drawPopulationGraph(float x1, float x2, float y1, float y2) {
+	private void drawPopulationGraph(float x1, float x2, float y1, float y2) {
 		float barWidth = (x2 - x1) / ((float) (POPULATION_HISTORY_LENGTH));
 		noStroke();
 		fill(0.33333f, 1, 0.6f);
@@ -312,7 +312,7 @@ class Board extends GlobalScope {
 		}
 	}
 
-	String getNextFileName(int type) {
+	private String getNextFileName(int type) {
 		String[] modes = {"manualImgs", "autoImgs", "manualTexts", "autoTexts"};
 		String ending = ".png";
 		if (type >= 2) {
@@ -321,7 +321,7 @@ class Board extends GlobalScope {
 		return folder + "/" + modes[type] + "/" + nf(fileSaveCounts[type], 5) + ending;
 	}
 
-	public void iterate(double timeStep) {
+	void iterate(double timeStep) {
 		double prevYear = year;
 		year += timeStep;
 		if (Math.floor(year / RECORD_POPULATION_EVERY) != Math.floor(prevYear / RECORD_POPULATION_EVERY)) {
@@ -436,18 +436,6 @@ class Board extends GlobalScope {
 		text(nf(MAX_TEMPERATURE, 0, 2), x1 - 5, maxY + 8);
 	}
 
-	private void drawVerticalSlider(float x1, float y1, float w, float h, float prog, int fillColor, int antiColor) {
-		noStroke();
-		fill(0, 0, 0.2f);
-		rect(x1, y1, w, h);
-		if (prog >= 0) {
-			fill(fillColor);
-		} else {
-			fill(antiColor);
-		}
-		rect(x1, y1 + h * (1 - prog), w, prog * h);
-	}
-
 	boolean setMinTemperature(float temp) {
 		MIN_TEMPERATURE = tempBounds(THERMOMETER_MIN + temp * (THERMOMETER_MAX - THERMOMETER_MIN));
 		if (MIN_TEMPERATURE > MAX_TEMPERATURE) {
@@ -541,12 +529,12 @@ class Board extends GlobalScope {
 		}
 	}
 
-	public String[] toBigString() {
+	String[] toBigString() {
 		String[] placeholder = {"Goo goo", "Ga ga"};
 		return placeholder;
 	}
 
-	public void unselect() {
+	void unselect() {
 		selectedCreature = null;
 	}
 }

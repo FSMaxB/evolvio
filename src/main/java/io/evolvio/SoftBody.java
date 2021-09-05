@@ -31,7 +31,7 @@ class SoftBody extends GlobalScope {
 	ArrayList<SoftBody> colliders;
 	final Board board;
 
-	public SoftBody(double tpx, double tpy, double tvx, double tvy, double tenergy, double tdensity,
+	SoftBody(double tpx, double tpy, double tvx, double tvy, double tenergy, double tdensity,
 					double thue, double tsaturation, double tbrightness, Board tb, double bt) {
 		px = tpx;
 		py = tpy;
@@ -48,7 +48,7 @@ class SoftBody extends GlobalScope {
 		birthTime = bt;
 	}
 
-	public void setSBIP(boolean shouldRemove) {
+	private void setSBIP(boolean shouldRemove) {
 		double radius = getRadius() * FIGHT_RANGE;
 		prevSBIPMinX = SBIPMinX;
 		prevSBIPMinY = SBIPMinY;
@@ -81,25 +81,25 @@ class SoftBody extends GlobalScope {
 		}
 	}
 
-	public int xBound(int x) {
+	int xBound(int x) {
 		return Math.min(Math.max(x, 0), board.boardWidth - 1);
 	}
 
-	public int yBound(int y) {
+	int yBound(int y) {
 		return Math.min(Math.max(y, 0), board.boardHeight - 1);
 	}
 
-	public double xBodyBound(double x) {
+	private double xBodyBound(double x) {
 		double radius = getRadius();
 		return Math.min(Math.max(x, radius), board.boardWidth - radius);
 	}
 
-	public double yBodyBound(double y) {
+	private double yBodyBound(double y) {
 		double radius = getRadius();
 		return Math.min(Math.max(y, radius), board.boardHeight - radius);
 	}
 
-	public void collide() {
+	void collide() {
 		colliders = new ArrayList<SoftBody>(0);
 		for (int x = SBIPMinX; x <= SBIPMaxX; x++) {
 			for (int y = SBIPMinY; y <= SBIPMaxY; y++) {
@@ -124,7 +124,7 @@ class SoftBody extends GlobalScope {
 		fightLevel = 0;
 	}
 
-	public void applyMotions(double timeStep) {
+	 void applyMotions(double timeStep) {
 		px = xBodyBound(px + vx * timeStep);
 		py = yBodyBound(py + vy * timeStep);
 		vx *= (1 - FRICTION / getMass());
@@ -132,7 +132,7 @@ class SoftBody extends GlobalScope {
 		setSBIP(true);
 	}
 
-	public void drawSoftBody(float scaleUp) {
+	void drawSoftBody(float scaleUp) {
 		double radius = getRadius();
 		stroke(0);
 		strokeWeight(2);
@@ -141,7 +141,7 @@ class SoftBody extends GlobalScope {
 		ellipse((float) (px * scaleUp), (float) (py * scaleUp), (float) (radius * scaleUp), (float) (radius * scaleUp));
 	}
 
-	public double getRadius() {
+	double getRadius() {
 		if (energy <= 0) {
 			return 0;
 		} else {
@@ -149,7 +149,7 @@ class SoftBody extends GlobalScope {
 		}
 	}
 
-	public double getMass() {
+	double getMass() {
 		return energy / ENERGY_DENSITY * density;
 	}
 }

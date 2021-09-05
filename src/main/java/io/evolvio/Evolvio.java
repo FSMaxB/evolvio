@@ -230,13 +230,13 @@ public class Evolvio extends PApplet {
 		dragging = 0;
 	}
 
-	void resetZoom() {
+	private void resetZoom() {
 		cameraX = BOARD_WIDTH * 0.5f;
 		cameraY = BOARD_HEIGHT * 0.5f;
 		zoom = 1;
 	}
 
-	void setZoom(float target, float x, float y) {
+	private void setZoom(float target, float x, float y) {
 		float grossX = grossify(x, BOARD_WIDTH);
 		cameraX -= (grossX / target - grossX / zoom);
 		float grossY = grossify(y, BOARD_HEIGHT);
@@ -244,18 +244,18 @@ public class Evolvio extends PApplet {
 		zoom = target;
 	}
 
-	float grossify(float input, float total) { // Very weird function
+	private float grossify(float input, float total) { // Very weird function
 		return (input / GROSS_OVERALL_SCALE_FACTOR - total * 0.5f * SCALE_TO_FIX_BUG) / SCALE_TO_FIX_BUG;
 	}
 
-	float toWorldXCoordinate(float x, float y) {
+	private float toWorldXCoordinate(float x, float y) {
 		float w = WINDOW_HEIGHT / 2;
 		float angle = atan2(y - w, x - w);
 		float dist = dist(w, w, x, y);
 		return cameraX + grossify(cos(angle - cameraR) * dist + w, BOARD_WIDTH) / zoom;
 	}
 
-	float toWorldYCoordinate(float x, float y) {
+	private float toWorldYCoordinate(float x, float y) {
 		float w = WINDOW_HEIGHT / 2;
 		float angle = atan2(y - w, x - w);
 		float dist = dist(w, w, x, y);

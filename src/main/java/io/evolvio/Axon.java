@@ -8,21 +8,21 @@ class Axon {
 	final double weight;
 	final double mutability;
 
-	public Axon(double w, double m) {
+	Axon(double w, double m) {
 		weight = w;
 		mutability = m;
 	}
 
-	public Axon mutateAxon() {
+	Axon mutateAxon() {
 		double mutabilityMutate = Math.pow(0.5, pmRan() * MUTABILITY_MUTABILITY);
 		return new Axon(weight + r() * mutability / MUTATE_MULTI, mutability * mutabilityMutate);
 	}
 
-	public double r() {
+	private static double r() {
 		return Math.pow(pmRan(), MUTATE_POWER);
 	}
 
-	public double pmRan() {
+	private static double pmRan() {
 		return (Math.random() * 2 - 1);
 	}
 }
