@@ -11,3 +11,5 @@ My intention is to refactor this into a state in which one can work with it.
 
 ## Run
 `mvn exec:java -Dexec.mainClass=io.evolvio.Evolvio`
+
+## Run tests
