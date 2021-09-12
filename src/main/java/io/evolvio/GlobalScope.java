@@ -14,14 +14,6 @@ public class GlobalScope {
 	final public static int RADIUS = PConstants.RADIUS;
 	final public static float PI = PConstants.PI;
 
-	static int color(float v1, float v2, float v3) {
-		return Evolvio.app.color(v1, v2, v3);
-	}
-
-	static int color(float v1, float v2, float v3, float alpha) {
-		return Evolvio.app.color(v1, v2, v3, alpha);
-	}
-
 	static float max(float a, float b) {
 		return PApplet.max(a, b);
 	}
@@ -66,10 +58,6 @@ public class GlobalScope {
 		Evolvio.app.rect(a, b, c, d);
 	}
 
-	static float brightness(int color) {
-		return Evolvio.app.brightness(color);
-	}
-
 	static void textAlign(int alignX) {
 		Evolvio.app.textAlign(alignX);
 	}
@@ -92,14 +80,6 @@ public class GlobalScope {
 
 	static String nf(int num, int digits) {
 		return PApplet.nf(num, digits);
-	}
-
-	static float hue(int color) {
-		return Evolvio.app.hue(color);
-	}
-
-	static float saturation(int color) {
-		return Evolvio.app.saturation(color);
 	}
 
 	static float dist(float x1, float y1, float x2, float y2) {

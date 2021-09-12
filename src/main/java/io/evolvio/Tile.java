@@ -1,10 +1,12 @@
 package io.evolvio;
 
+import static io.evolvio.helpers.Color.*;
+
 class Tile extends GlobalScope {
-	private static final int BARREN_COLOR = color(0, 0, 1);
-	private static final int FERTILE_COLOR = color(0, 0, 0.2f);
-	private static final int BLACK_COLOR = color(0, 1, 0);
-	private static final int WATER_COLOR = color(0, 0, 0);
+	private static final int BARREN_COLOR = hsb(0, 0, 1);
+	private static final int FERTILE_COLOR = hsb(0, 0, 0.2f);
+	private static final int BLACK_COLOR = hsb(0, 1, 0);
+	private static final int WATER_COLOR = hsb(0, 0, 0);
 	private static final float FOOD_GROWTH_RATE = 1.0f;
 	private static final float MAX_GROWTH_LEVEL = 1.0f;
 	private final float climateType;
@@ -66,7 +68,7 @@ class Tile extends GlobalScope {
 	}
 
 	int getColor() {
-		int foodColor = color(foodType, 1, 1);
+		int foodColor = hsb(foodType, 1, 1);
 		if (fertility > 1) {
 			return WATER_COLOR;
 		} else if (foodLevel < MAX_GROWTH_LEVEL) {
@@ -80,7 +82,7 @@ class Tile extends GlobalScope {
 		float hue = inter(hue(a), hue(b), x);
 		float sat = inter(saturation(a), saturation(b), x);
 		float bri = inter(brightness(a), brightness(b), x); // I know it's dumb to do interpolation with HSL but oh well
-		return color(hue, sat, bri);
+		return hsb(hue, sat, bri);
 	}
 
 	private static int interColorFixedHue(int a, int b, float x, float hue) {
@@ -90,7 +92,7 @@ class Tile extends GlobalScope {
 		}
 		float sat = inter(saturation(a), satB, x);
 		float bri = inter(brightness(a), brightness(b), x); // I know it's dumb to do interpolation with HSL but oh well
-		return color(hue, sat, bri);
+		return hsb(hue, sat, bri);
 	}
 
 	private static float inter(float a, float b, float x) {

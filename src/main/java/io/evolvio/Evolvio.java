@@ -4,9 +4,6 @@ import processing.core.PApplet;
 import processing.core.PFont;
 import processing.event.MouseEvent;
 
-/**
- * Hello world!
- */
 public class Evolvio extends PApplet {
 	public static Evolvio app;
 

@@ -4,6 +4,8 @@ import processing.core.PFont;
 
 import java.util.ArrayList;
 
+import static io.evolvio.helpers.Color.*;
+
 class Creature extends SoftBody {
 	private static final int ENERGY_HISTORY_LENGTH = 6;
 	static final double SAFE_SIZE = 1.25;
@@ -198,17 +200,17 @@ class Creature extends SoftBody {
 
 	private static int neuronFillColor(double d) {
 		if (d >= 0) {
-			return color(0, 0, 1, (float) (d));
+			return hsb(0, 0, 1, (float) (d));
 		} else {
-			return color(0, 0, 0, (float) (-d));
+			return hsb(0, 0, 0, (float) (-d));
 		}
 	}
 
 	private static int neuronTextColor(double d) {
 		if (d >= 0) {
-			return color(0, 0, 0);
+			return hsb(0, 0, 0);
 		} else {
-			return color(0, 0, 1);
+			return hsb(0, 0, 1);
 		}
 	}
 
@@ -217,9 +219,9 @@ class Creature extends SoftBody {
 		double radius = getRadius();
 		if (showVision) {
 			for (int i = 0; i < VISION_ANGLES.length; i++) {
-				int visionUIcolor = color(0, 0, 1);
+				int visionUIcolor = hsb(0, 0, 1);
 				if (visionResults[i * 3 + 2] > BRIGHTNESS_THRESHOLD) {
-					visionUIcolor = color(0, 0, 0);
+					visionUIcolor = hsb(0, 0, 0);
 				}
 				stroke(visionUIcolor);
 				strokeWeight(2);

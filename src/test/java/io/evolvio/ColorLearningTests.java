@@ -71,7 +71,6 @@ public class ColorLearningTests implements WithAssertions {
 		assertThat((color >> 16) & 0xFF).isEqualTo(76);
 
 		assertThat((color >> 24) & 0xFF).isEqualTo(floatToByte(alpha));
-
 	}
 
 	@Test

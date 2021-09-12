@@ -4,6 +4,8 @@ import processing.core.PFont;
 
 import java.util.ArrayList;
 
+import static io.evolvio.helpers.Color.*;
+
 class Board extends GlobalScope {
 	private static final float THERMOMETER_MIN = -2;
 	private static final float THERMOMETER_MAX = 2;
@@ -13,8 +15,8 @@ class Board extends GlobalScope {
 	private static final float MAX_CREATURE_ENERGY = 2.0f;
 	private static final float ROCK_DENSITY = 5;
 	private static final float OBJECT_TIMESTEPS_PER_YEAR = 100;
-	private static final int ROCK_COLOR = color(0, 0, 0.5f);
-	static final int BACKGROUND_COLOR = color(0, 0, 0.1f);
+	private static final int ROCK_COLOR = hsb(0, 0, 0.5f);
+	static final int BACKGROUND_COLOR = hsb(0, 0, 0.1f);
 	static final float MINIMUM_SURVIVABLE_SIZE = 0.2f;
 	static final int LIST_SLOTS = 6;
 	static final int CREATURE_MINIMUM_INCREMENT = 5;
@@ -32,7 +34,7 @@ class Board extends GlobalScope {
 	Creature selectedCreature = null;
 	int creatureIDUpTo = 0;
 	int creatureRankMetric = 0;
-	private final static int BUTTON_COLOR = color(0.82f, 0.8f, 0.7f);
+	private final static int BUTTON_COLOR = hsb(0.82f, 0.8f, 0.7f);
 	final Creature[] list = new Creature[LIST_SLOTS];
 	private final String folder;
 	private final int[] fileSaveCounts;
@@ -286,7 +288,7 @@ class Board extends GlobalScope {
 		textAlign(RIGHT);
 		textFont(font, 24);
 		text("Temperature", -10, 24);
-		drawThermometer(-45, 30, 20, 660, temperature, THERMOMETER_MIN, THERMOMETER_MAX, color(0, 1, 1));
+		drawThermometer(-45, 30, 20, 660, temperature, THERMOMETER_MIN, THERMOMETER_MAX, hsb(0, 1, 1));
 		popMatrix();
 
 		if (selectedCreature != null) {
