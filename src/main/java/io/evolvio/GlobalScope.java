@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PFont;
 
+import static io.evolvio.helpers.Color.hsb;
+
 public class GlobalScope {
 	final public static int CODED = PConstants.CODED;
 	final public static int CENTER = PConstants.CENTER;
@@ -26,32 +28,32 @@ public class GlobalScope {
 		return PApplet.round(n);
 	}
 
-	static void stroke(int color) {
+	static void setStrokeColor(int color) {
 		Evolvio.app.stroke(color);
 	}
 
-	static void stroke(float v1, float v2, float v3) {
-		Evolvio.app.stroke(v1, v2, v3);
+	static void setStrokeColorHSB(float hue, float saturation, float brightness) {
+		setStrokeColor(hsb(hue, saturation, brightness));
 	}
 
-	static void stroke(float v1, float v2, float v3, float alpha) {
-		Evolvio.app.stroke(v1, v2, v3, alpha);
+	static void setStrokeColorHSB(float hue, float saturation, float brightness, float alpha) {
+		setStrokeColor(hsb(hue, saturation, brightness, alpha));
 	}
 
 	static void strokeWeight(float weight) {
 		Evolvio.app.strokeWeight(weight);
 	}
 
-	static void fill(int color) {
+	static void setFillColor(int color) {
 		Evolvio.app.fill(color);
 	}
 
-	static void fill(float v1, float v2, float v3) {
-		Evolvio.app.fill(v1, v2, v3);
+	static void setFillColorHSB(float hue, float saturation, float brightness) {
+		setFillColor(hsb(hue, saturation, brightness));
 	}
 
-	static void fill(float v1, float v2, float v3, float alpha) {
-		Evolvio.app.fill(v1, v2, v3, alpha);
+	static void setFillColorHSB(float hue, float saturation, float brightness, float alpha) {
+		setFillColor(hsb(hue, saturation, brightness, alpha));
 	}
 
 	static void rect(float a, float b, float c, float d) {

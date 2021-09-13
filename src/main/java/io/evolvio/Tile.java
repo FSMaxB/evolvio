@@ -25,16 +25,16 @@ class Tile extends GlobalScope {
 	}
 
 	void drawTile(float scaleUp, boolean showEnergy) {
-		stroke(0, 0, 0, 1);
+		setStrokeColorHSB(0, 0, 0, 1);
 		strokeWeight(2);
 		int landColor = getColor();
-		fill(landColor);
+		setFillColor(landColor);
 		rect(posX * scaleUp, posY * scaleUp, scaleUp, scaleUp);
 		if (showEnergy) {
 			if (brightness(landColor) >= 0.7f) {
-				fill(0, 0, 0, 1);
+				setFillColorHSB(0, 0, 0, 1);
 			} else {
-				fill(0, 0, 1, 1);
+				setFillColorHSB(0, 0, 1, 1);
 			}
 			textAlign(CENTER);
 			textFont(font(), 21);

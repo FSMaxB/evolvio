@@ -110,13 +110,13 @@ class Creature extends SoftBody {
 	void drawBrain(PFont font, float scaleUp, int mX, int mY) {
 		final float neuronSize = 0.4f;
 		noStroke();
-		fill(0, 0, 0.4f);
+		setFillColorHSB(0, 0, 0.4f);
 		rect((-1.7f - neuronSize) * scaleUp, -neuronSize * scaleUp, (2.4f + BRAIN_WIDTH + neuronSize * 2) * scaleUp, (BRAIN_HEIGHT + neuronSize * 2) * scaleUp);
 
 		ellipseMode(RADIUS);
 		strokeWeight(2);
 		textFont(font, 0.58f * scaleUp);
-		fill(0, 0, 1);
+		setFillColorHSB(0, 0, 1);
 		String[] inputLabels = {"0Hue", "0Sat", "0Bri", "1Hue",
 			"1Sat", "1Bri", "2Hue", "2Sat", "2Bri", "Size", "Mem", "Const."};
 		String[] outputLabels = {"BHue", "MHue", "Accel.", "Turn", "Eat", "Fight", "Birth", "How funny?",
@@ -132,9 +132,9 @@ class Creature extends SoftBody {
 			for (int y = 0; y < BRAIN_HEIGHT; y++) {
 				noStroke();
 				double val = neurons[x][y];
-				fill(neuronFillColor(val));
+				setFillColor(neuronFillColor(val));
 				ellipse(x * scaleUp, y * scaleUp, neuronSize * scaleUp, neuronSize * scaleUp);
-				fill(neuronTextColor(val));
+				setFillColor(neuronTextColor(val));
 				text(nf((float) val, 0, 1), x * scaleUp, (y + (neuronSize * 0.6f)) * scaleUp);
 			}
 		}
@@ -151,7 +151,7 @@ class Creature extends SoftBody {
 	}
 
 	private void drawAxon(int x1, int y1, int x2, int y2, float scaleUp) {
-		stroke(neuronFillColor(axons[x1][y1][y2].weight * neurons[x1][y1]));
+		setStrokeColor(neuronFillColor(axons[x1][y1][y2].weight * neurons[x1][y1]));
 
 		line(x1 * scaleUp, y1 * scaleUp, x2 * scaleUp, y2 * scaleUp);
 	}
@@ -223,16 +223,16 @@ class Creature extends SoftBody {
 				if (visionResults[i * 3 + 2] > BRIGHTNESS_THRESHOLD) {
 					visionUIcolor = hsb(0, 0, 0);
 				}
-				stroke(visionUIcolor);
+				setStrokeColor(visionUIcolor);
 				strokeWeight(2);
 				float endX = (float) getVisionEndX(i);
 				float endY = (float) getVisionEndY(i);
 				line((float) (px * scaleUp), (float) (py * scaleUp), endX * scaleUp, endY * scaleUp);
 				noStroke();
-				fill(visionUIcolor);
+				setFillColor(visionUIcolor);
 				ellipse((float) (visionOccludedX[i] * scaleUp), (float) (visionOccludedY[i] * scaleUp),
 					2 * CROSS_SIZE * scaleUp, 2 * CROSS_SIZE * scaleUp);
-				stroke((float) (visionResults[i * 3]), (float) (visionResults[i * 3 + 1]), (float) (visionResults[i * 3 + 2]));
+				setStrokeColorHSB((float) (visionResults[i * 3]), (float) (visionResults[i * 3 + 1]), (float) (visionResults[i * 3 + 2]));
 				strokeWeight(2);
 				line((float) ((visionOccludedX[i] - CROSS_SIZE) * scaleUp), (float) ((visionOccludedY[i] - CROSS_SIZE) * scaleUp),
 					(float) ((visionOccludedX[i] + CROSS_SIZE) * scaleUp), (float) ((visionOccludedY[i] + CROSS_SIZE) * scaleUp));
@@ -242,12 +242,12 @@ class Creature extends SoftBody {
 		}
 		noStroke();
 		if (fightLevel > 0) {
-			fill(0, 1, 1, (float) (fightLevel * 0.8));
+			setFillColorHSB(0, 1, 1, (float) (fightLevel * 0.8));
 			ellipse((float) (px * scaleUp), (float) (py * scaleUp), (float) (FIGHT_RANGE * radius * scaleUp), (float) (FIGHT_RANGE * radius * scaleUp));
 		}
 		strokeWeight(2);
-		stroke(0, 0, 1);
-		fill(0, 0, 1);
+		setStrokeColorHSB(0, 0, 1);
+		setFillColorHSB(0, 0, 1);
 		if (this == board.selectedCreature) {
 			ellipse((float) (px * scaleUp), (float) (py * scaleUp),
 				(float) (radius * scaleUp + 1 + 75.0 / camZoom), (float) (radius * scaleUp + 1 + 75.0 / camZoom));
@@ -255,7 +255,7 @@ class Creature extends SoftBody {
 		super.drawSoftBody(scaleUp);
 		noFill();
 		strokeWeight(2);
-		stroke(0, 0, 1);
+		setStrokeColorHSB(0, 0, 1);
 		ellipseMode(RADIUS);
 		ellipse((float) (px * scaleUp), (float) (py * scaleUp),
 			board.MINIMUM_SURVIVABLE_SIZE * scaleUp, board.MINIMUM_SURVIVABLE_SIZE * scaleUp);
@@ -264,12 +264,12 @@ class Creature extends SoftBody {
 		scale((float) radius);
 		rotate((float) rotation);
 		strokeWeight((float) (2.0 / radius));
-		stroke(0, 0, 0);
-		fill((float) mouthHue, 1.0f, 1.0f);
+		setStrokeColorHSB(0, 0, 0);
+		setFillColorHSB((float) mouthHue, 1.0f, 1.0f);
 		ellipse(0.6f * scaleUp, 0, 0.37f * scaleUp, 0.37f * scaleUp);
 		popMatrix();
 		if (showVision) {
-			fill(0, 0, 1);
+			setFillColorHSB(0, 0, 1);
 			textFont(font(), 0.3f * scaleUp);
 			textAlign(CENTER);
 			text(getCreatureName(), (float) (px * scaleUp), (float) ((py - getRadius() * 1.4) * scaleUp));

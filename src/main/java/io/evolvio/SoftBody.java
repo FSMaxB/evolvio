@@ -133,9 +133,9 @@ class SoftBody extends GlobalScope {
 
 	void drawSoftBody(float scaleUp) {
 		double radius = getRadius();
-		stroke(0);
+		setStrokeColor(0);
 		strokeWeight(2);
-		fill((float) hue, (float) saturation, (float) brightness);
+		setFillColorHSB((float) hue, (float) saturation, (float) brightness);
 		ellipseMode(RADIUS);
 		ellipse((float) (px * scaleUp), (float) (py * scaleUp), (float) (radius * scaleUp), (float) (radius * scaleUp));
 	}

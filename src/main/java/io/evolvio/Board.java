@@ -118,19 +118,19 @@ class Board extends GlobalScope {
 	}
 
 	void drawBlankBoard(float scaleUp) {
-		fill(BACKGROUND_COLOR);
+		setFillColor(BACKGROUND_COLOR);
 		rect(0, 0, scaleUp * boardWidth, scaleUp * boardHeight);
 	}
 
 	void drawUI(float scaleUp, double timeStep, int x1, int y1, int x2, int y2, PFont font) {
-		fill(0, 0, 0);
+		setFillColorHSB(0, 0, 0);
 		noStroke();
 		rect(x1, y1, x2 - x1, y2 - y1);
 
 		pushMatrix();
 		translate(x1, y1);
 
-		fill(0, 0, 1);
+		setFillColorHSB(0, 0, 1);
 		textAlign(LEFT);
 		textFont(font, 48);
 		String yearText = "Year " + nf((float) year, 0, 2);
@@ -181,25 +181,25 @@ class Board extends GlobalScope {
 					textFont(font, 24);
 					textAlign(LEFT);
 					noStroke();
-					fill(0.333f, 1, 0.4f);
+					setFillColorHSB(0.333f, 1, 0.4f);
 					float multi = (x2 - x1 - 200);
 					if (list[i].energy > 0) {
 						rect(85, y + 5, (float) (multi * list[i].energy / maxEnergy), 25);
 					}
 					if (list[i].energy > 1) {
-						fill(0.333f, 1, 0.8f);
+						setFillColorHSB(0.333f, 1, 0.8f);
 						rect(85 + (float) (multi / maxEnergy), y + 5, (float) (multi * (list[i].energy - 1) / maxEnergy), 25);
 					}
-					fill(0, 0, 1);
+					setFillColorHSB(0, 0, 1);
 					text(list[i].getCreatureName() + " [" + list[i].id + "] (" + toAge(list[i].birthTime) + ")", 90, y);
 					text("Energy: " + nf(100 * (float) (list[i].energy), 0, 2), 90, y + 25);
 				}
 			}
 			noStroke();
-			fill(BUTTON_COLOR);
+			setFillColor(BUTTON_COLOR);
 			rect(10, 95, 220, 40);
 			rect(240, 95, 220, 40);
-			fill(0, 0, 1);
+			setFillColorHSB(0, 0, 1);
 			textAlign(CENTER);
 			text("Reset zoom", 120, 123);
 			String[] sorts = {"Biggest", "Smallest", "Youngest", "Oldest", "A to Z", "Z to A", "Highest Gen", "Lowest Gen"};
@@ -216,14 +216,14 @@ class Board extends GlobalScope {
 			for (int i = 0; i < 8; i++) {
 				float x = (i % 2) * 230 + 10;
 				float y = floor(i / 2) * 50 + 570;
-				fill(BUTTON_COLOR);
+				setFillColor(BUTTON_COLOR);
 				rect(x, y, 220, 40);
 				if (i >= 2 && i < 6) {
 					double flashAlpha = 1.0 * Math.pow(0.5, (year - fileSaveTimes[i - 2]) * FLASH_SPEED);
-					fill(0, 0, 1, (float) flashAlpha);
+					setFillColorHSB(0, 0, 1, (float) flashAlpha);
 					rect(x, y, 220, 40);
 				}
-				fill(0, 0, 1, 1);
+				setFillColorHSB(0, 0, 1, 1);
 				text(buttonTexts[i], x + 110, y + 17);
 				if (i == 0) {
 				} else if (i == 1) {
@@ -237,9 +237,9 @@ class Board extends GlobalScope {
 			float energyUsage = (float) selectedCreature.getEnergyUsage(timeStep);
 			noStroke();
 			if (energyUsage <= 0) {
-				fill(0, 1, 0.5f);
+				setFillColorHSB(0, 1, 0.5f);
 			} else {
-				fill(0.33f, 1, 0.4f);
+				setFillColorHSB(0.33f, 1, 0.4f);
 			}
 			float EUbar = 6 * energyUsage;
 			rect(110, 280, min(max(EUbar, -110), 110), 25);
@@ -249,7 +249,7 @@ class Board extends GlobalScope {
 				float h = (EUbar - 110) * 20 + 25;
 				rect(185, 280 - h, 25, h);
 			}
-			fill(0, 0, 1);
+			setFillColorHSB(0, 0, 1);
 			text("Name: " + selectedCreature.getCreatureName(), 10, 225);
 			text("Energy: " + nf(100 * (float) selectedCreature.energy, 0, 2) + " yums", 10, 250);
 			text("E Change: " + nf(100 * energyUsage, 0, 2) + " yums/year", 10, 275);
@@ -277,7 +277,7 @@ class Board extends GlobalScope {
 			popMatrix();
 		}
 		drawPopulationGraph(x1, x2, y1, y2);
-		fill(0, 0, 0);
+		setFillColorHSB(0, 0, 0);
 		textAlign(RIGHT);
 		textFont(font, 24);
 		text("Population: " + creatures.size(), x2 - x1 - 10, y2 - y1 - 10);
@@ -299,7 +299,7 @@ class Board extends GlobalScope {
 	private void drawPopulationGraph(float x1, float x2, float y1, float y2) {
 		float barWidth = (x2 - x1) / ((float) (POPULATION_HISTORY_LENGTH));
 		noStroke();
-		fill(0.33333f, 1, 0.6f);
+		setFillColorHSB(0.33333f, 1, 0.6f);
 		int maxPopulation = 0;
 		for (int i = 0; i < POPULATION_HISTORY_LENGTH; i++) {
 			if (populationHistory[i] > maxPopulation) {
@@ -410,9 +410,9 @@ class Board extends GlobalScope {
 	private void drawThermometer(float x1, float y1, float w, float h, float prog, float min, float max,
 								 int fillColor) {
 		noStroke();
-		fill(0, 0, 0.2f);
+		setFillColorHSB(0, 0, 0.2f);
 		rect(x1, y1, w, h);
-		fill(fillColor);
+		setFillColor(fillColor);
 		float proportionFilled = (prog - min) / (max - min);
 		rect(x1, y1 + h * (1 - proportionFilled), w, proportionFilled * h);
 
@@ -420,17 +420,17 @@ class Board extends GlobalScope {
 		float zeroHeight = (0 - min) / (max - min);
 		float zeroLineY = y1 + h * (1 - zeroHeight);
 		textAlign(RIGHT);
-		stroke(0, 0, 1);
+		setStrokeColorHSB(0, 0, 1);
 		strokeWeight(3);
 		line(x1, zeroLineY, x1 + w, zeroLineY);
 		float minY = y1 + h * (1 - (minTemperature - min) / (max - min));
 		float maxY = y1 + h * (1 - (maxTemperature - min) / (max - min));
-		fill(0, 0, 0.8f);
+		setFillColorHSB(0, 0, 0.8f);
 		line(x1, minY, x1 + w * 1.8f, minY);
 		line(x1, maxY, x1 + w * 1.8f, maxY);
 		line(x1 + w * 1.8f, minY, x1 + w * 1.8f, maxY);
 
-		fill(0, 0, 1);
+		setFillColorHSB(0, 0, 1);
 		text("Zero", x1 - 5, zeroLineY + 8);
 		text(nf(minTemperature, 0, 2), x1 - 5, minY + 8);
 		text(nf(maxTemperature, 0, 2), x1 - 5, maxY + 8);
